@@ -195,3 +195,224 @@ Content-Type: application/json
 
 ### Eliminar libro
 DELETE http://localhost:3000/api/libros/9788437604947
+
+
+### Listar usuarios
+GET http://localhost:3000/api/usuarios
+
+### Crear usuario
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Ana",
+    "apellido": "Pérez",
+    "email": "ana@example.com",
+    "direccion": "Calle 23 #456, La Habana"
+}
+
+### Obtener usuario
+GET http://localhost:3000/api/usuarios/1
+
+### Actualizar usuario
+PUT http://localhost:3000/api/usuarios/1
+Content-Type: application/json
+
+{
+    "nombre": "Ana María",
+    "apellido": "Pérez",
+    "email": "ana@example.com",
+    "direccion": "Calle 23 #456, La Habana"
+}
+
+### 404 - Usuario no existe
+GET http://localhost:3000/api/usuarios/999
+
+### 409 - Email duplicado
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Otro",
+    "apellido": "Usuario",
+    "email": "ana@example.com"
+}
+
+### 400 - Email inválido
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "nombre": "Pedro",
+    "apellido": "Gómez",
+    "email": "no-es-un-email"
+}
+
+### Eliminar usuario
+DELETE http://localhost:3000/api/usuarios/1
+
+
+### Listar préstamos
+GET http://localhost:3000/api/prestamos
+### Registrar préstamo (caso normal)
+POST http://localhost:3000/api/prestamos
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9788437604947",
+    "diasPrestamo": 14
+}
+
+### Obtener préstamo por id
+GET http://localhost:3000/api/prestamos/1
+
+### Registrar devolución
+PUT http://localhost:3000/api/prestamos/1/devolucion
+
+### 409 - Devolver dos veces
+PUT http://localhost:3000/api/prestamos/1/devolucion
+
+### 409 - Usuario con 5 préstamos activos
+POST http://localhost:3000/api/prestamos
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9788437604947",
+    "diasPrestamo": 14
+}
+
+### 404 - Usuario no existe
+POST http://localhost:3000/api/prestamos
+Content-Type: application/json
+
+{
+    "idUsuario": 999,
+    "isbn": "9788437604947",
+    "diasPrestamo": 14
+}
+
+### 404 - Libro no existe
+POST http://localhost:3000/api/prestamos
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9999999999999",
+    "diasPrestamo": 14
+}
+
+### 400 - días inválidos
+POST http://localhost:3000/api/prestamos
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9788437604947",
+    "diasPrestamo": 0
+}
+
+### Préstamos de un libro por rango de fechas
+GET http://localhost:3000/api/libros/9788437604947/prestamos?fechaIni=2026-01-01&fechaFin=2026-12-31
+
+### 400 - Rango de fechas inválido
+GET http://localhost:3000/api/libros/9788437604947/prestamos?fechaIni=2026-12-31&fechaFin=2026-01-01
+
+### Eliminar préstamo
+DELETE http://localhost:3000/api/prestamos/1
+
+
+
+### Listar reseñas
+GET http://localhost:3000/api/resenas
+
+### 409 - Crear reseña sin haber devuelto el libro
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9788437604947",
+    "calificacion": 5,
+    "comentario": "Excelente libro"
+}
+
+### Registrar devolución primero (necesario para poder reseñar)
+PUT http://localhost:3000/api/prestamos/1/devolucion
+
+### Crear reseña (ahora sí)
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9788437604947",
+    "calificacion": 5,
+    "comentario": "Excelente libro, muy recomendado"
+}
+
+### 409 - Reseña duplicada
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9788437604947",
+    "calificacion": 4,
+    "comentario": "Intento de duplicado"
+}
+
+### 404 - Usuario no existe
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "idUsuario": 999,
+    "isbn": "9788437604947",
+    "calificacion": 5,
+    "comentario": "Usuario fantasma"
+}
+
+### 404 - Libro no existe
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9999999999999",
+    "calificacion": 5,
+    "comentario": "Libro fantasma"
+}
+
+### 400 - Calificación fuera de rango
+POST http://localhost:3000/api/resenas
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "isbn": "9788437604947",
+    "calificacion": 10,
+    "comentario": "Mal calificada"
+}
+
+### Obtener reseña
+GET http://localhost:3000/api/resenas/1
+
+### Actualizar reseña
+PUT http://localhost:3000/api/resenas/1
+Content-Type: application/json
+
+{
+    "calificacion": 4,
+    "comentario": "Reconsiderando, muy bueno"
+}
+
+### Verificar si usuario ya reseñó un libro
+GET http://localhost:3000/api/usuarios/1/resena/9788437604947
+
+### Verificar cuando NO ha reseñado
+GET http://localhost:3000/api/usuarios/1/resena/9788437604947
+
+### Eliminar reseña
+DELETE http://localhost:3000/api/resenas/1

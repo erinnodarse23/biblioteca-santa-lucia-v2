@@ -53,5 +53,25 @@ const eliminar = async (req, res, next) => {
         next(err);
     }
 };
+const prestamosService = require('../services/prestamos.service');
 
-module.exports = { listar, obtener, obtenerDetalleCompleto, crear, actualizar, eliminar };
+const listarPrestamosPorRango = async (req, res, next) => {
+    try {
+        const { isbn } = req.params;
+        const { fechaIni, fechaFin } = req.query;
+        const prestamos = await prestamosService.listarPorLibroYRango(isbn, fechaIni, fechaFin);
+        res.json(prestamos);
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports = {
+    listar,
+    obtener,
+    obtenerDetalleCompleto,
+    crear,
+    actualizar,
+    eliminar,
+    listarPrestamosPorRango,
+};

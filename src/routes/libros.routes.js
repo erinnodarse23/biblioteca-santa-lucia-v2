@@ -6,7 +6,18 @@ const validate = require('../middlewares/validate');
 const router = express.Router();
 
 router.get('/', controller.listar);
+const { query } = require('express-validator');
 
+router.get(
+    '/:isbn/prestamos',
+    [
+        param('isbn').matches(/^[0-9]{13}$/).withMessage('ISBN debe tener 13 dígitos'),
+        query('fechaIni').isISO8601().withMessage('fechaIni inválida (YYYY-MM-DD)'),
+        query('fechaFin').isISO8601().withMessage('fechaFin inválida (YYYY-MM-DD)'),
+    ],
+    validate,
+    controller.listarPrestamosPorRango
+);
 // Detalle completo (debe ir ANTES de /:isbn para no confundirse)
 router.get(
     '/:isbn/detalle',
@@ -58,5 +69,23 @@ router.delete(
     validate,
     controller.eliminar
 );
+const prestamosController = require('../controllers/prestamos.controller');
 
+router.get(
+    '/:isbn/prestamos',
+    [
+        param('isbn').matches(/^[0-9]{13}$/).withMessage('ISBN debe tener 13 dígitos'),
+        query('fechaIni').isISO8601().withMessage('fechaIni inválida (YYYY-MM-DD)'),
+        query('fechaFin').isISO8601().withMessage('fechaFin inválida (YYYY-MM-DD)'),
+    ],
+    validate,
+    (req, res, next) => {
+        req.params.isbn = req.params.isbn;
+        req.query.fechaIni = req.query.fechaIni;
+        req.query.fechaFin = req.query.fechaFin;
+        prestamosController.listarPorLibroYRango
+            ? prestamosController.listarPorLibroYRango(req, res, next)
+            : next();
+    }
+);
 module.exports = router;
