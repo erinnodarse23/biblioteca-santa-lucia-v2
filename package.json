@@ -1,21 +1,40 @@
 {
-  "name": "biblioteca---santa-lucia-2.0-con-node",
+  "name": "biblioteca-santa-lucia-v2",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API REST para la gestión de la Biblioteca Santa Lucía (Node.js + Express)",
+  "main": "src/server.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
+  "keywords": [
+    "biblioteca",
+    "api",
+    "rest",
+    "express",
+    "postgresql"
+  ],
+  "author": "Erin Odarse",
+  "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/erinnodarse23/backend-biblioteca-santa-lucia.git"
+    "url": "git+https://github.com/erinnodarse23/biblioteca-santa-lucia-v2.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/erinnodarse23/backend-biblioteca-santa-lucia/issues"
+    "url": "https://github.com/erinnodarse23/biblioteca-santa-lucia-v2/issues"
   },
-  "homepage": "https://github.com/erinnodarse23/backend-biblioteca-santa-lucia#readme"
+  "homepage": "https://github.com/erinnodarse23/biblioteca-santa-lucia-v2#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "pg": "^8.23.1",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }

@@ -1,0 +1,197 @@
+### Listar autores
+GET http://localhost:3000/api/autores
+
+### Crear autor
+POST http://localhost:3000/api/autores
+Content-Type: application/json
+
+{
+    "nombre": "Gabriel",
+    "apellido": "García Márquez",
+    "fechaNacimiento": "1927-03-06",
+    "nacionalidad": "Colombiana",
+    "biografia": "Premio Nobel de Literatura 1982"
+}
+
+### Obtener autor por id
+GET http://localhost:3000/api/autores/1
+
+### Actualizar autor
+PUT http://localhost:3000/api/autores/1
+Content-Type: application/json
+
+{
+    "nombre": "Gabriel José",
+    "apellido": "García Márquez",
+    "fechaNacimiento": "1927-03-06",
+    "nacionalidad": "Colombiana",
+    "biografia": "Escritor y periodista colombiano"
+}
+
+### Eliminar autor
+DELETE http://localhost:3000/api/autores/1
+
+### Validación: id no numérico
+GET http://localhost:3000/api/autores/abc
+
+
+
+
+
+### Listar géneros
+GET http://localhost:3000/api/generos
+
+### Crear género
+POST http://localhost:3000/api/generos
+Content-Type: application/json
+
+{
+    "nombre": "Realismo mágico",
+    "descripcion": "Género literario que incorpora elementos fantásticos a la realidad cotidiana"
+}
+
+### Obtener género por id
+GET http://localhost:3000/api/generos/1
+
+### Actualizar género
+PUT http://localhost:3000/api/generos/1
+Content-Type: application/json
+
+{
+    "nombre": "Realismo mágico",
+    "descripcion": "Corriente literaria del siglo XX"
+}
+
+### Eliminar género
+DELETE http://localhost:3000/api/generos/1
+
+
+### 404 - Género que no existe
+GET http://localhost:3000/api/generos/999
+
+### Conflicto - Crear género duplicado
+POST http://localhost:3000/api/generos
+Content-Type: application/json
+
+{
+    "nombre": "Realismo mágico",
+    "descripcion": "Duplicado"
+}
+
+### Conflicto - Actualizar con nombre ya existente
+PUT http://localhost:3000/api/generos/2
+Content-Type: application/json
+
+{
+    "nombre": "Realismo mágico",
+    "descripcion": "Intento de duplicar"
+}
+
+
+### 404 - Autor que no existe
+GET http://localhost:3000/api/autores/999
+
+### Conflicto - Crear autor duplicado
+POST http://localhost:3000/api/autores
+Content-Type: application/json
+
+{
+    "nombre": "Gabriel",
+    "apellido": "García Márquez",
+    "fechaNacimiento": "1927-03-06",
+    "nacionalidad": "Colombiana",
+    "biografia": "Duplicado"
+}
+
+### Conflicto - Actualizar con nombre+apellido ya existente
+PUT http://localhost:3000/api/autores/2
+Content-Type: application/json
+
+{
+    "nombre": "Gabriel",
+    "apellido": "García Márquez",
+    "fechaNacimiento": "1927-03-06",
+    "nacionalidad": "Colombiana",
+    "biografia": "Intento de duplicar"
+}
+
+
+### Listar libros
+GET http://localhost:3000/api/libros
+
+### Crear libro
+POST http://localhost:3000/api/libros
+Content-Type: application/json
+
+{
+    "isbn": "9788437604947",
+    "titulo": "Cien años de soledad",
+    "fechaPublicacion": "1967-05-30",
+    "numPaginas": 432,
+    "cantidadEjemplares": 5,
+    "sintesis": "Novela del realismo mágico",
+    "idAutor": 1,
+    "idGenero": 1
+}
+
+### Detalle completo del libro
+GET http://localhost:3000/api/libros/9788437604947/detalle
+
+### Obtener libro por ISBN
+GET http://localhost:3000/api/libros/9788437604947
+
+### Actualizar libro
+PUT http://localhost:3000/api/libros/9788437604947
+Content-Type: application/json
+
+{
+    "titulo": "Cien años de soledad (edición especial)",
+    "fechaPublicacion": "1967-05-30",
+    "numPaginas": 450,
+    "cantidadEjemplares": 6,
+    "sintesis": "Novela del realismo mágico",
+    "idAutor": 1,
+    "idGenero": 1
+}
+
+### 404 - Libro no existe
+GET http://localhost:3000/api/libros/9999999999999
+
+### 409 - ISBN duplicado
+POST http://localhost:3000/api/libros
+Content-Type: application/json
+
+{
+    "isbn": "9788437604947",
+    "titulo": "Otro título",
+    "cantidadEjemplares": 1,
+    "idAutor": 1,
+    "idGenero": 1
+}
+
+### 404 - Autor no existe
+POST http://localhost:3000/api/libros
+Content-Type: application/json
+
+{
+    "isbn": "1111111111111",
+    "titulo": "Libro huérfano",
+    "cantidadEjemplares": 1,
+    "idAutor": 999,
+    "idGenero": 1
+}
+
+### 400 - ISBN inválido
+POST http://localhost:3000/api/libros
+Content-Type: application/json
+
+{
+    "isbn": "abc",
+    "titulo": "Mal ISBN",
+    "cantidadEjemplares": 1,
+    "idAutor": 1,
+    "idGenero": 1
+}
+
+### Eliminar libro
+DELETE http://localhost:3000/api/libros/9788437604947

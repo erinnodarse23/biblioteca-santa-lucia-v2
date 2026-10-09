@@ -14,12 +14,13 @@ CREATE TABLE IF NOT EXISTS Autor (
     apellido VARCHAR(50) NOT NULL,
     fecha_nacimiento DATE,
     nacionalidad VARCHAR(50),
-    biografia TEXT
+    biografia TEXT,
+    UNIQUE (nombre, apellido)
 );
 
 CREATE TABLE IF NOT EXISTS Genero (
     id_genero SERIAL PRIMARY KEY,
-    nombre VARCHAR(50),
+    nombre VARCHAR(50) UNIQUE NOT NULL,
     descripcion TEXT
 );
 
